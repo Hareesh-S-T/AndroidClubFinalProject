@@ -1,18 +1,21 @@
 import { StyleSheet } from 'react-native';
 import globalVariables from '../../../global/globalVariables';
 
-export const styles=StyleSheet.create({
-    bottomBox: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+export const styles = StyleSheet.create({
+    textBox: {
+        // marginTop: 450,
+        // alignSelf: 'center',
+        // backgroundColor: 'red',
     },
+
     bottomRow: {
-        marginTop: 10,
+        flex: 1,
+        paddingBottom: 20,
         paddingHorizontal: 20,
+        alignItems: 'flex-end',
         flexDirection: 'row',
-        // backgroundColor: 'white',
         justifyContent: 'space-between',
+        // backgroundColor: 'red',
     },
     bottomRowSegment: {
         flexDirection: 'row',
@@ -32,11 +35,11 @@ export const styles=StyleSheet.create({
         width: 60
     },
     buttonIcon: {
-        fontSize: 20,
+        fontSize: 24,
         color: 'black',
     },
     buttonIconAccent: {
-        fontSize: 20,
+        fontSize: 24,
         color: globalVariables.accentColourDark,
     },
 

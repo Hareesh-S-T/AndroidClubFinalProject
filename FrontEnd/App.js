@@ -1,12 +1,14 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  View
-} from 'react-native';
-import SplashScreen from './src/screens/auth/splash';
+import SplashScreen from './src/screens/auth/Splash';
+import AuthStackNav from './src/navigation/AuthStackNav';
+import { NavigationContainer } from '@react-navigation/native';
+
 export default function App() {
   return (
-    <View>
-      <SplashScreen />
-    </View>
+    // <SplashScreen />
+    <NavigationContainer>
+      <AuthStackNav />
+    </NavigationContainer>
   )
 }

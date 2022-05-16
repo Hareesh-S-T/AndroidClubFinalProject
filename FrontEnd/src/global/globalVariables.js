@@ -1,8 +1,8 @@
 const globalVariables = {
     accentColour: '#57DCBE',
-    accentColourDark: '#135167',
+    accentColourDark: '#143b32',
     
-    // buttonRadius: 10,
+    buttonRadius: 10,
 
     regularFont: 'OpenSans-Regular',
     semiBoldFont: 'OpenSans-SemiBold',
