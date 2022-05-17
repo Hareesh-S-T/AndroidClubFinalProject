@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import TextField from '../../../components/TextField';
 import { TextButton } from '../../../components/CustomButtons';
 import axios from 'axios';
+import PullToRefreshViewNativeComponent from 'react-native/Libraries/Components/RefreshControl/PullToRefreshViewNativeComponent';
 
 export default function SigninScreen({ navigation }) {
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -39,12 +40,20 @@ export default function SigninScreen({ navigation }) {
         navigation.navigate('ForgotPWA');
     }
 
-    function onPressSubmit() {
+    async function onPressSubmit(formData) {
+        const userData = {
+            email: formData.email,
+            password: formData.password,
+        }
 
-
-
-
-        
+        try {
+            const res = await axios.post(`http://${globalVariables.serverIP}/api/user/signin`, userData);
+            console.log("Submitted");
+            // navigation.navigate();
+        } catch (err) {
+            console.log(err.response.data);
+            failedLogIn(err.response.data);
+        }
     }
 
     return (

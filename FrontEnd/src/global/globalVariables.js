@@ -12,6 +12,6 @@ const globalVariables = {
     h2Colour: 'rgb(150,150,150)',
     
     emailRegex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    // serverIP: '3.111.123.156'
+    serverIP: '192.168.0.201:8080',
 };
 export default globalVariables;
