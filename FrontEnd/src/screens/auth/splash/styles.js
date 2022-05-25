@@ -22,6 +22,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    buttonPressableContainer: {
+        height: 60,
+        width: 60
+    },
     buttonContainer: {
         backgroundColor: 'white',
         borderRadius: 30,
@@ -29,10 +33,6 @@ export const styles = StyleSheet.create({
     buttonContainerAccent: {
         backgroundColor: globalVariables.accentColour,
         borderRadius: 30,
-    },
-    buttonPressableContainer: {
-        height: 60,
-        width: 60
     },
     buttonIcon: {
         fontSize: 24,

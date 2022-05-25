@@ -7,6 +7,8 @@ import ConfirmationScreen from '../screens/auth/Confirmation';
 import ForgotPWAScreen from '../screens/auth/ForgotPWA';
 import ForgotPWBScreen from '../screens/auth/ForgotPWB';
 
+// import MainTabNav from './MainTabNav';
+
 const Stack = createNativeStackNavigator();
 
 export default function AuthStackNav() {
@@ -19,6 +21,8 @@ export default function AuthStackNav() {
                 <Stack.Screen name='Confirmation' component={ConfirmationScreen} />
                 <Stack.Screen name='ForgotPWA' component={ForgotPWAScreen} />
                 <Stack.Screen name='ForgotPWB' component={ForgotPWBScreen} />
+
+                {/* <Stack.Screen name='MainTabs' component={MainTabNav} /> */}
             </Stack.Navigator>
         </>
     )

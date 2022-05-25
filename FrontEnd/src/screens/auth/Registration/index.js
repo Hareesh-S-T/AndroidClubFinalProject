@@ -5,8 +5,9 @@ import globalVariables from '../../../global/globalVariables';
 import { styles } from './styles';
 import { useForm } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/AntDesign';
-import TextField from '../../../components/TextField';
+import { TextField } from '../../../components/TextField';
 import { TextButton } from '../../../components/CustomButtons';
+import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
 
 export default function RegistrationScreen({ navigation }) {
@@ -15,6 +16,11 @@ export default function RegistrationScreen({ navigation }) {
 
     const [showPW, setShowPW] = useState(false);
     const [showPW2, setShowPW2] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [isDatePicked, setIsDatePicked] = useState(false);
+    const [dateError, setDateError] = useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
     let pwIcon = 'eye-off';
     let pwIcon2 = 'eye-off';
     function onPressShowPW() {
@@ -36,7 +42,7 @@ export default function RegistrationScreen({ navigation }) {
         navigation.goBack();
     }
 
-    function failedregistration(err) {
+    function failedAlert(err) {
         Alert.alert(
             "Failed",
             `${err}`,
@@ -44,14 +50,26 @@ export default function RegistrationScreen({ navigation }) {
         );
     }
 
-    function onPressSubmit() {
-
-
-        navigation.navigate('Confirmation');
-
-
-
-
+    async function onPressSubmit(formData) {
+        const userData = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            dob: date,
+        }
+        if (!isDatePicked) { //If date was not changed from default
+            setDateError(true);
+            // failedAlert("Date of Birth has not been entered.");
+        } else {
+            try {
+                const res = await axios.post(`http://${globalVariables.serverIP}/api/auth/registration`, userData);
+                console.log("Submitted");
+                navigation.navigate('Confirmation', { email: formData.email });
+            } catch (err) {
+                console.log(err.response);
+                failedAlert(err.response.data);
+            }
+        }
     }
 
     return (
@@ -83,6 +101,28 @@ export default function RegistrationScreen({ navigation }) {
                             required: 'Re-Enter Password.',
                             validate: value => value == password ? true : 'Password does not match.'
                         }} />
+                        <TextButton propText={'Date of Birth'} propContainerStyle={[globalStyles.submitButton, { marginVertical: 5 }]} propTextStyle={globalStyles.submitText} propOnPress={() => { setShowDatePicker(true) }} />
+
+                        {dateError && <Text style={{
+                            fontSize: 12,
+                            fontFamily: globalVariables.regularFont,
+                            color: '#990000',
+                        }}>Date of birth is required.</Text>}
+
+                        <DatePicker modal={true} open={showDatePicker} date={date} textColor={'white'}
+                            onConfirm={(date) => {
+                                setShowDatePicker(false);
+                                setDateError(false);
+                                setDate(date);
+                                setIsDatePicked(true);
+                            }}
+                            onCancel={() => {
+                                setShowDatePicker(false);
+                            }}
+                            mode={"date"}
+                            theme={"dark"}
+                        />
+
                     </View>
                 </View>
 

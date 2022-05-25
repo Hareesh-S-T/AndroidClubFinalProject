@@ -4,18 +4,15 @@ import { useForm } from 'react-hook-form';
 import { Alert, Image, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TextButton } from '../../../components/CustomButtons';
-import TextField from '../../../components/TextField';
+import { TextField } from '../../../components/TextField';
 import { globalStyles } from '../../../global/globalStyles';
 import globalVariables from '../../../global/globalVariables';
 import { styles } from './styles';
 
-export default function ForgotPWAScreen({ navigation }) {
+export default function ForgotPWAScreen({ navigation, route }) {
     const { control, handleSubmit, formState: { errors } } = useForm();
 
-    const [showPW, setShowPW] = useState(false);
-    const [showPW2, setShowPW2] = useState(false);
-
-    const failedAccount = (err) =>
+    const failedAlert = (err) =>
         Alert.alert(
             "Failed",
             `${err}`,
@@ -27,12 +24,18 @@ export default function ForgotPWAScreen({ navigation }) {
         navigation.goBack();
     }
 
-    function onPressSubmit() {
-
-
-        navigation.navigate('ForgotPWB', { email: FormData.email });
-
-
+    async function onPressSubmit(formData) {
+        const userData = {
+            email: formData.email,
+        }
+        try {
+            const res = await axios.post(`http://${globalVariables.serverIP}/api/auth/forgotPWA`, userData);
+            console.log("Forgot Password Code Sent");
+            navigation.navigate('ForgotPWB', { email: formData.email });
+        } catch (err) {
+            console.log(err.response);
+            failedAlert(err.response.data);
+        }
     }
 
     return (

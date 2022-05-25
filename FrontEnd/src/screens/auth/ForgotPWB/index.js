@@ -4,13 +4,14 @@ import { useForm } from 'react-hook-form';
 import { Alert, Image, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TextButton } from '../../../components/CustomButtons';
-import TextField from '../../../components/TextField';
+import { TextField } from '../../../components/TextField';
 import { globalStyles } from '../../../global/globalStyles';
 import globalVariables from '../../../global/globalVariables';
 import { styles } from './styles';
 
-export default function ForgotPWBScreen({ navigation, route}) {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+export default function ForgotPWBScreen({ navigation, route }) {
+    const { control, handleSubmit, formState: { errors }, watch } = useForm();
+    const password = watch('password');
 
     const [showPW, setShowPW] = useState(false);
     const [showPW2, setShowPW2] = useState(false);
@@ -30,7 +31,7 @@ export default function ForgotPWBScreen({ navigation, route}) {
         pwIcon2 = 'eye';
     }
 
-    const failedAccount = (err) =>
+    const failedAlert = (err) =>
         Alert.alert(
             "Failed",
             `${err}`,
@@ -42,16 +43,32 @@ export default function ForgotPWBScreen({ navigation, route}) {
         navigation.goBack();
     }
 
-    function resendEmail() {
-
+    async function onPressResendCode(formData) {
+        const userData = {
+            email: route.params.email
+        }
+        try {
+            const res = await axios.post(`http://${globalVariables.serverIP}/api/auth/resendCode`, userData);
+            console.log("Code Resent");
+        } catch (err) {
+            failedAlert(err.response.data);
+        }
     }
 
-    function onPressSubmit() {
-
-
-        navigation.navigate('Signin');
-
-
+    async function onPressSubmit(formData) {
+        const userData = {
+            email: route.params.email,
+            otp: formData.confirmationCode,
+            password: formData.password,
+        }
+        try {
+            const res = await axios.post(`http://${globalVariables.serverIP}/api/auth/forgotPWB`, userData);
+            console.log("Forgot Password Code Sent");
+            navigation.navigate('Signin');
+        } catch (err) {
+            console.log(err);
+            failedAlert(err.response.data);
+        }
     }
 
     return (
@@ -75,7 +92,7 @@ export default function ForgotPWBScreen({ navigation, route}) {
                             required: 'Re-Enter Password.',
                             validate: value => value == password ? true : 'Password does not match.'
                         }} />
-                        <Text style={globalStyles.forgotPWText} onPress={resendEmail}>Didn't receive an email?</Text>
+                        <Text style={globalStyles.forgotPWText} onPress={onPressResendCode}>Didn't receive an email?</Text>
                     </View>
                 </View>
 

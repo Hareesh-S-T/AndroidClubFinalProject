@@ -3,10 +3,10 @@ dotenv.config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
 //Importing Routes
 const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
 
 // Database Connection
 mongoose.connect(process.env.DB_URL, () => {
@@ -17,7 +17,8 @@ mongoose.connect(process.env.DB_URL, () => {
 app.use(express.json());
 
 //Route Middleware
-app.use('/api/user', authRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/users', userRoute);
 
 
 app.listen(process.env.PORT, () => console.log(`Server Running on Port ${process.env.PORT}`))

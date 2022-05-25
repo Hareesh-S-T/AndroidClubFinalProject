@@ -28,14 +28,29 @@ export const globalStyles = StyleSheet.create({
         color: globalVariables.h1Colour,
         fontFamily: globalVariables.semiBoldFont,
     },
+    mainText2: {
+        fontSize: 22,
+        // paddingHorizontal: 20,
+        color: globalVariables.h1Colour,
+        fontFamily: globalVariables.semiBoldFont,
+    },
     subText: {
         fontSize: 16,
         // paddingHorizontal: 20,
         color: globalVariables.h2Colour,
         fontFamily: globalVariables.regularFont,
     },
+    subText2: {
+        fontSize: 16,
+        // paddingHorizontal: 20,
+        color: globalVariables.h1Colour,
+        fontFamily: globalVariables.regularFont,
+    },
 
     backButton: {
+        // backgroundColor: 'white',
+        height: 65,
+        width: 65,
         color: 'white',
         fontSize: 25,
         padding: 20,

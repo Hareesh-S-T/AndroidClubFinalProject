@@ -20,10 +20,12 @@ export default function SplashScreen({ navigation }) {
         <>
             <Image source={require('../../../assets/images/BG.png')} style={globalStyles.bg} />
             <View style={globalStyles.container}>
-                <View style={styles.textBox}>
+                {/* <View style={styles.textBox}>
                     <Text style={globalStyles.mainText}>Title</Text>
                     <Text style={globalStyles.subText}>Sub</Text>
-                </View>
+                </View> */}
+
+                <Image source={require('../../../assets/images/Blank.png')} style={{ position: 'absolute', top: -150, alignSelf: 'center', resizeMode: 'contain', width: 250}} />
 
                 <View style={styles.bottomRow}>
                     <View style={styles.bottomRowSegment}>

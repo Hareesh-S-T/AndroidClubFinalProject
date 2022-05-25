@@ -5,12 +5,13 @@ import globalVariables from '../../../global/globalVariables';
 import { styles } from './styles';
 import { useForm } from 'react-hook-form';
 import Icon from 'react-native-vector-icons/AntDesign';
-import TextField from '../../../components/TextField';
+import { TextField } from '../../../components/TextField';
 import { TextButton } from '../../../components/CustomButtons';
 import axios from 'axios';
-import PullToRefreshViewNativeComponent from 'react-native/Libraries/Components/RefreshControl/PullToRefreshViewNativeComponent';
+import { useLoggedInContext } from '../../../context/contextProvider';
 
 export default function SigninScreen({ navigation }) {
+    const loggedInContext = useLoggedInContext();
     const { control, handleSubmit, formState: { errors } } = useForm();
 
     const [showPW, setShowPW] = useState(false);
@@ -22,7 +23,7 @@ export default function SigninScreen({ navigation }) {
         setShowPW(!showPW);
     }
 
-    function failedLogIn(err) {
+    function failedAlert(err) {
         Alert.alert(
             "Failed",
             `${err}`,
@@ -45,14 +46,14 @@ export default function SigninScreen({ navigation }) {
             email: formData.email,
             password: formData.password,
         }
-
         try {
-            const res = await axios.post(`http://${globalVariables.serverIP}/api/user/signin`, userData);
+            const res = await axios.post(`http://${globalVariables.serverIP}/api/auth/signin`, userData);
             console.log("Submitted");
-            // navigation.navigate();
+            loggedInContext.setToken(res.headers.authorization);
+            loggedInContext.setIsLoggedIn(true);
         } catch (err) {
             console.log(err.response.data);
-            failedLogIn(err.response.data);
+            failedAlert("Something went wrong. Try again later.");
         }
     }
 
