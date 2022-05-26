@@ -171,6 +171,8 @@ router.post('/forgotPWA', async (req, res) => {
 
 router.post('/forgotPWB', async (req, res) => {
     try {
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPW = await bcryptjs.hash(req.body.password, salt);
         const user = await User.findOne({
             email: req.body.email
         })
@@ -181,7 +183,7 @@ router.post('/forgotPWB', async (req, res) => {
                     verified: true,
                 },
                 {
-                    password: req.body.password,
+                    password: hashedPW,
                 })
             res.status(200).send("Password reset.")
         } else {
